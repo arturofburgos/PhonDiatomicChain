@@ -9,11 +9,11 @@ clc
 ncell = 5;
 
 % define the repeating masses
-m1 = 0.8;
-m2 = 0.3;
+m1 = 0.01;
+m2 = 0.02;
 % define the repeating stifffness
-k1 = 700000;
-k2 = 1000000;
+k1 = 22;
+k2 = 18;
 
 % Compute leading and remaining natural frequencies of the system 
 [phon_freq, nfq] = eigen_phon(m1, k1, m2, k2, ncell);
