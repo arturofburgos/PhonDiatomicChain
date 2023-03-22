@@ -11,7 +11,7 @@ using LinearAlgebra, LinearMaps, Plots
 # USER INPUT #
 #============#
 
-T = 12
+T = 10
 dt = 0.005 
 # Here define the number of pair spring-mass: 
 ncells = 5 
@@ -26,9 +26,9 @@ m2 = 0.02
 
 m = [m1, m2]
 # Assuming all springs are equal:
-k1 = 20
+k1 = 22
 
-k2 = 25 
+k2 = 18 
 
 k = [k1, k2]
 # Initial Quantities
@@ -163,7 +163,7 @@ x[1,:] = [x0 ẋ0]
 # External force acting only (in my physical model) in the last mass
 function f(t)
     a = zeros(nm)
-    a[end] = 0.01
+    a[end] = 0.1
     return a
 end
 
@@ -249,5 +249,9 @@ x = trapezoidal(u, dt, N, C, x, M, nm)
 # Post Processing #
 #=================#
 
-display(plot(t,x[:,nm], ylim = (0, 0.01)))
+plot1 = plot(t,x[:,10])
+plot!(t, x[:,9])
+plot!(t, x[:,1])
+display(plot1)
 
+print("max_dis_u is: ",maximum(x[:,10]))

@@ -14,23 +14,45 @@ using LinearAlgebra, LinearMaps, Plots, Interpolations
 # USER INPUT #
 #============#
 
-T = 16
+T = 10
 dt = 0.005 
 # Here define the number of pair spring-mass: 
-ncells = 5 
+ncells = 5
 
 nm = 2*ncells
 
 # Assuming all the masses are equal:
-m1 = 0.01
+m1 = 5.184091044416687e-07
+#m1 = 0.9
+m1 = 2.0000e-04
 
+m1 = 8.5554e-06
+m1 =0.01
+
+m2 = 5.184091044416687e-07
+#m2 = 0.3
+m2 = 2.0000e-04
+
+m2 = 8.5554e-06
 m2 = 0.02
 
 m = [m1, m2]
 # Assuming all springs are equal:
-k1 = 20
+k1 =  0.071237466973439
+#k1 = 70000
+k1 = 4.7387e+03
 
-k2 = 30
+k1 = 12.8228
+k1 = 22
+
+
+k2 =  0.071237466973439
+#k2 = 100000
+k2 = 4.7387e+03
+
+k2 = 12.8228
+k2 = 18
+
 
 k = [k1, k2]
 
@@ -182,7 +204,9 @@ udd = zeros(nm,N)
 u[:,1] = x0
 ud[:,1] = ẋ0
 udd[:,1]= -inv(M̃)*(K̂*u[:,1])
-
+#= F = zeros(nm)
+F[end] = 0.01
+udd[:,1]= inv(M̃)*(F-K̂*u[:,1]) =#
 
 
 
@@ -226,8 +250,8 @@ itp = interpolate((ts,), fs, Gridded(Linear()))
 function f(t)
     a = zeros(nm)
     #println(t)
-    a[end] = itp(t)
-    #a[end] = 0.025
+    #a[end] = itp(t)
+    a[end] = 0.01
     return a
 end
 
@@ -243,7 +267,11 @@ end
 #================#
 function newmark(u, ud, udd, N, β, γ, M̃, P)
     for i in 1:N-1 
-        fn = f(t[i])
+        #fn = f(t[i])
+        fn = zeros(nm)
+        fn[end] = 0.1
+
+        
         Q = fn + M̃*((1/(β*dt^2))*u[:,i] + (1/(β*dt))*ud[:,i] + (1/(2*β) - 1)*udd[:,i])
         #= if i < 5 
             @show Q
@@ -271,7 +299,7 @@ using Plots, LaTeXStrings, Measures # Possible to use PyPlot too.
 gr()
 
 
-@userplot springmass
+#= @userplot springmass
 @recipe function f!(var::springmass)
         
     size --> (950,400)
@@ -304,7 +332,12 @@ end
 
 
 figure = springmass(t[:],u[end,1:end], label = "Numerical")
-display(figure)
+display(figure) =#
+plot1 = plot(t,u[end,1:end], label = :none)
+plot!(t, u[end-1, 1:end], label = :none)
+plot!(t, u[1, 1:end], label = :none)
+display(plot1)
+
 
 
 
@@ -321,3 +354,5 @@ open("$(@__DIR__)/displacement.dat", "w") do io
 
 
 end
+
+print("max_dis_u is: ",maximum(u))
