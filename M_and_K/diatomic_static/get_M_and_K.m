@@ -5,7 +5,7 @@
 Keff_by_Meff = 28.7287;
 
 % Now enter the displacement rule to be obeyed by the output
-disp_uniform = 0.1; % The value used in the abstract This value is the one we found in the displacement for maximum displacement in phononic case.
+disp_uniform = 0.0505; % The value used in the abstract This value is the one we found in the displacement for maximum displacement in phononic case.
 
 
 % Input a guess for Keff
