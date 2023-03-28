@@ -9,11 +9,11 @@ clc
 ncell = 5;
 
 % define the repeating masses
-m1 = 0.8;
-m2 = 0.3;
+m1 = 0.01;
+m2 = 0.02;
 % define the repeating stifffness
-k1 = 700000;
-k2 = 1000000;
+k1 = 22;
+k2 = 18;
 
 % Compute leading and remaining natural frequencies of the system 
 [phon_freq, nfq] = eigen_phon(m1, k1, m2, k2, ncell);
@@ -23,7 +23,7 @@ k2 = 1000000;
 % Optimization routine to get keff_guess and therefore (k/m)eff ratio
 meff_fix_guess = 1;
 keff_guess = (k1+k2)/2;
-func = @(k_eff_guess)(eigen_uniform(meff_fix_guess,k_eff_guess,ncell)-phon_freq);
+func = @(k_eff_guess)(eigen_uniform(meff_fix_guess,k_eff_guess,ncell)^2-phon_freq^2);
 
 final_ratio = fzero(func, keff_guess);
 Keff_by_Meff = final_ratio;

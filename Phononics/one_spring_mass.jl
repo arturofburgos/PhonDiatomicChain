@@ -10,15 +10,15 @@
 
 # Create the time grid: 
 
-T = 20 # Lenght of the time interval
+T = 1 # Lenght of the time interval
 dt = 0.002 # Time-step size
 N = Int(T/dt) + 1 # Number of time-steps
 t = range(0, T, N)
 
 # Constants: 
 
-k = 8
-m = 3
+k = 1
+m = 0.0348
 
 c = sqrt(k/m)
 
@@ -27,7 +27,7 @@ c = sqrt(k/m)
 # Set initial conditions:
 
 x0 = 0.0 # Initial Position 
-ẋ0 = 1.0 # Initial Velocity 
+ẋ0 = 0.0 # Initial Velocity 
 
 u = [x0 ẋ0] # Initial condition matrix 
 
@@ -37,7 +37,7 @@ x = zeros(N)
 x[1] = x0
 
 for i in 2:N # Option 1
-    rhs = [u[2], (-c^2)*u[1]]
+    rhs = [u[2], (-c^2)*(u[1]+0.1/m)]
     u[:] = u[:] + dt * rhs
     x[i] = u[1]
 end
